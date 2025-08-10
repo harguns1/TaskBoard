@@ -1,0 +1,16 @@
+{
+  "name": "taskboard-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node src/index.js",
+    "migrate": "npx prisma db push"
+  },
+  "dependencies": {
+    "@prisma/client": "5.16.1",
+    "prisma": "5.16.1",
+    "cors": "2.8.5",
+    "express": "4.19.2"
+  }
+}
+

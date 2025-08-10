@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: taskboard
+      POSTGRES_USER: taskuser
+      POSTGRES_PASSWORD: taskpass
+    ports: ["5432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgres://taskuser:taskpass@db:5432/taskboard
+      PORT: "8080"
+    depends_on: [db]
+    ports: ["8080:8080"]   # <-- required
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://54.87.85.0:8080   # <-- set your EC2 public IP here
+    depends_on: [backend]
+    ports: ["5173:80"]     # nginx serves on 80 in the container
+
+volumes:
+  pgdata:
+
